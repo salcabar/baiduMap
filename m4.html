@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
+	<title>Document</title>
+	<style type="text/css">
+	html{height: 100%}
+	body{height: 100%;margin: 0px;padding: 0px}
+	#container{height: 100%}
+	</style>
+	<script src="http://api.map.baidu.com/api?v=1.5&ak=8635ba61f23c0350d44f9e677085b93a"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<script type="text/javascript">
+	var map = new BMap.Map("container");         // 创建地图实例  
+	var point = new BMap.Point(116.497,40.011);  // 创建点坐标  
+	map.centerAndZoom(point,18);  // 初始化地图，设置中心点坐标和地图级别  
+	
+	// var marker = new BMap.Maker(point);   //创建标注
+	// map.addOverlay(marker);  // 将标注添加到地图中
+
+	function addMarker(point,index){ 
+		//创建图表对象
+		var myIcon = new BMap.Icon("china.png",new BMap.Size(23,25),{
+			anchor:new BMap.Size(10,25),
+			imageOffset:new BMap.Size(0,0)
+		});
+		var marker = new BMap.Marker(point,{icon:myIcon});
+		//marker.enableDragging();  //开启标注的拖拽功能
+
+		//监听标注的dragend事件来捕获拖拽后标注的最新位置。
+		// marker.addEventListener("dragend",function(e){
+		// 	console.log(e.point.lng,e.point.lat);
+		// })
+		map.addOverlay(marker);
+		//  map.removeOverlay(marker);  //移除标注
+
+	}
+
+	var bounds = map.getBounds();  //返回地图可视区域，以地理坐标表示。
+	console.log(bounds.Mf)
+
+	var lngSpan = bounds.wc - bounds.zc;
+	var latSpan = bounds.vc - bounds.yc;
+	for(var i=0;i<10;i++){
+		var lng = bounds.zc + lngSpan * (Math.random() * 0.7 + 0.15);
+		var lat = bounds.yc + latSpan * (Math.random() * 0.7 + 0.15);
+		console.log(lng,lat)
+		//以指定的经度lng和纬度lat创建一个地理点坐标。
+		var point = new BMap.Point(lng,lat);
+		addMarker(point,i);
+	}
+
+	</script>
+</body>
+</html>
